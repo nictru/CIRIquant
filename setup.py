@@ -42,7 +42,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'argparse>=1.2.1', 'PyYAML==5.4', 'pysam==0.15.2', 'numpy==1.16.4',
-        'scipy==1.2.2', 'scikit-learn==0.20.3', 'numexpr==2.6.9',
+        'PyYAML==6.0.1', 'pysam==0.22.1', 'numpy==2.1.0',
+        'scipy==1.14.1', 'scikit-learn==1.5.1',
     ],
 )
