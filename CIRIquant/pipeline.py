@@ -13,12 +13,13 @@ def align_genome(log_file, thread, reads, outdir, prefix):
     align_dir = outdir + '/align'
     utils.check_dir(align_dir)
     sorted_bam = '{}/{}.sorted.bam'.format(align_dir, prefix)
-    hisat_cmd = '{0} -p {1} --dta -q -x {2} -1 {3} -2 {4} -t --new-summary | {5} sort -o {6} --threads {1} -'.format(
+
+    reads_string = f"-1 {reads[0]} -2 {reads[1]}" if len(reads) > 1 else f"-U {reads[0]}"
+    hisat_cmd = '{0} -p {1} --dta -q -x {2} {3} -t --new-summary | {4} sort -o {5} --threads {1} -'.format(
         utils.HISAT2,
         thread,
         utils.HISAT_INDEX,
-        reads[0],
-        reads[1],
+        reads_string,
         utils.SAMTOOLS,
         sorted_bam
     )

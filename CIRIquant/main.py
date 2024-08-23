@@ -20,6 +20,8 @@ def main():
     # required arguments
     parser.add_argument('--config', dest='config_file', metavar='FILE',
                         help='Config file in YAML format', )
+    parser.add_argument('-r', '--read', dest='mate1', metavar='MATE1',
+                        help='Input reads (for single-end data)', )
     parser.add_argument('-1', '--read1', dest='mate1', metavar='MATE1',
                         help='Input mate1 reads (for paired-end data)', )
     parser.add_argument('-2', '--read2', dest='mate2', metavar='MATE2',
@@ -77,8 +79,11 @@ def main():
 
     """Check required parameters"""
     # check input reads
-    if args.mate1 and args.mate2:
-        reads = [check_file(args.mate1), check_file(args.mate2)]
+    if args.mate1:
+        if args.mate2:
+            reads = [check_file(args.mate1), check_file(args.mate2)]
+        else:
+            reads = [check_file(args.mate1)]
     else:
         sys.exit('No input files specified, please see manual for detailed information')
 
@@ -136,7 +141,7 @@ def main():
 
     """Start Running"""
     os.chdir(outdir)
-    logger.info('Input reads: ' + ','.join([os.path.basename(args.mate1), os.path.basename(args.mate2)]))
+    logger.info('Input reads: ' + ','.join([os.path.basename(read) for read in reads]))
 
     if lib_type == 0:
         lib_name = 'unstranded'

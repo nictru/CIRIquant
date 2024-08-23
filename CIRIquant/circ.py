@@ -242,13 +242,13 @@ def denovo_alignment(log_file, thread, reads, outdir, prefix):
     denovo_bam = '{}/circ/{}_denovo.bam'.format(outdir, prefix)
     sorted_bam = '{}/circ/{}_denovo.sorted.bam'.format(outdir, prefix)
 
-    align_cmd = '{} -p {} --dta -q -x {}/circ/{}_index -1 {} -2 {} | {} view -bS > {}'.format(
+    reads_string = f"-1 {reads[0]} -2 {reads[1]}" if len(reads) > 1 else f"-U {reads[0]}"
+    align_cmd = '{} -p {} --dta -q -x {}/circ/{}_index {} | {} view -bS > {}'.format(
         utils.HISAT2,
         thread,
         outdir,
         prefix,
-        reads[0],
-        reads[1],
+        reads_string,
         utils.SAMTOOLS,
         denovo_bam,
     )
