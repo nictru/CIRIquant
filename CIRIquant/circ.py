@@ -445,13 +445,13 @@ def proc_genome_bam(bam_file, thread, circ_info, cand_reads, threshold, tmp_dir,
     circ_bsj = defaultdict(dict)
     circ_fsj = defaultdict(dict)
     for pair_id in cand_reads:
-        for mate_id, (circ_id, blocks, cigartuples) in cand_reads[pair_id].iteritems():
+        for mate_id, (circ_id, blocks, cigartuples) in cand_reads[pair_id].items():
             if pair_id in fp_bsj and mate_id in fp_bsj[pair_id]:
                 continue
             circ_bsj[circ_id].update({query_prefix(pair_id): 1})
 
     for pair_id in fsj_reads:
-        for mate_id, circ_id in fsj_reads[pair_id].iteritems():
+        for mate_id, circ_id in fsj_reads[pair_id].items():
             if pair_id in cand_reads and mate_id in cand_reads[pair_id] and not (pair_id in fp_bsj and mate_id in fp_bsj[pair_id]):
                 continue
             circ_fsj[circ_id].update({query_prefix(pair_id): 1})
@@ -524,7 +524,7 @@ def genome_worker(chrom, tmp_dir, is_no_fsj):
         fsj_reads = []
     else:
         fsj_reads = []
-        for circ_id, parser in CIRC[chrom].iteritems():
+        for circ_id, parser in CIRC[chrom].items():
             # FSJ across start site
             for read in sam.fetch(region='{0}:{1}-{1}'.format(chrom, parser.start)):
                 if read.is_unmapped or read.is_supplementary:
@@ -870,7 +870,7 @@ def index_annotation(gtf):
             #     continue
 
             start_div, end_div = parser.start / 500, parser.end / 500
-            for i in xrange(start_div, end_div + 1):
+            for i in range(start_div, end_div + 1):
                 gtf_index[parser.chrom].setdefault(i, []).append(parser)
     return gtf_index
 
@@ -888,7 +888,7 @@ def circRNA_attr(gtf_index, circ):
     start_element = defaultdict(list)
     end_element = defaultdict(list)
 
-    for x in xrange(start_div, end_div + 1):
+    for x in range(start_div, end_div + 1):
         if x not in gtf_index[circ.chrom]:
             continue
         for element in gtf_index[circ.chrom][x]:
