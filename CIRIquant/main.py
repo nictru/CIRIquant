@@ -7,12 +7,11 @@ import argparse
 
 
 def main():
-    from version import __version__
-    import circ
-    import pipeline
-    from logger import get_logger
-    from utils import check_file, check_dir, check_config, get_thread_num
-    from utils import CIRCparser, TOOLS
+    from CIRIquant.version import __version__
+    from CIRIquant import circ, pipeline
+    from CIRIquant.logger import get_logger
+    from CIRIquant.utils import check_file, check_dir, check_config, get_thread_num
+    from CIRIquant.utils import CIRCparser, TOOLS
 
     # Init argparser
     parser = argparse.ArgumentParser(prog='CIRIquant')

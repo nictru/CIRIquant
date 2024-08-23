@@ -13,7 +13,7 @@ from multiprocessing import Pool
 from collections import defaultdict
 from itertools import zip_longest
 
-import utils
+from CIRIquant import utils
 
 LOGGER = logging.getLogger('CIRIquant')
 PREFIX = re.compile(r'(.+)[/_-][12]')

@@ -4,7 +4,7 @@ import os
 import sys
 import logging
 import subprocess
-import utils
+from CIRIquant import utils
 LOGGER = logging.getLogger('CIRIquant')
 
 
