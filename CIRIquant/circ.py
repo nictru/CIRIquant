@@ -113,7 +113,7 @@ def load_fai(fname):
             content = line.rstrip().split('\t')
             chrom, length, start, eff_length, line_length = content
             shift_length = int(length) * int(line_length) / int(eff_length)
-            faidx[chrom] = [int(start), shift_length]
+            faidx[chrom] = [int(start), int(shift_length)]
     return faidx
 
 
@@ -412,7 +412,7 @@ def proc_genome_bam(bam_file, thread, circ_info, cand_reads, threshold, tmp_dir,
         fsj reads of circRNAs, pair_id -> mate_id -> circ_id
 
     """
-    import cPickle
+    import pickle
     LOGGER.info('Detecting FSJ reads from genome alignment file')
 
     sam = pysam.AlignmentFile(bam_file, 'rb')
@@ -434,7 +434,7 @@ def proc_genome_bam(bam_file, thread, circ_info, cand_reads, threshold, tmp_dir,
         tmp = job.get()
         if tmp is None:
             continue
-        res = tmp if isinstance(tmp, dict) else cPickle.load(open(tmp, 'rb'))
+        res = tmp if isinstance(tmp, dict) else pickle.load(open(tmp, 'rb'))
         chrom_fp_bsj, chrom_fsj, chrom_cand = res['fp_bsj'], res['fsj_reads'], res['cand_to_genome']
         for pair_id, mate_id in chrom_fp_bsj:
             fp_bsj[pair_id][mate_id] = 1
@@ -495,7 +495,7 @@ def genome_worker(chrom, tmp_dir, is_no_fsj):
         fsj_reads of circRNAs, (query_name, mate_id, circ_id)
 
     """
-    import cPickle
+    import pickle
 
     if chrom not in CIRC:
         return None
@@ -550,10 +550,10 @@ def genome_worker(chrom, tmp_dir, is_no_fsj):
 
     res = {'fp_bsj': fp_bsj, 'fsj_reads': fsj_reads, 'cand_to_genome': cand_to_genome}
 
-    res_to_string = cPickle.dumps(res, 0)
+    res_to_string = pickle.dumps(res, 0)
     if sys.getsizeof(res_to_string) > 1024 * 1024 * 1024:
         pkl_file = "{}/{}.pkl".format(tmp_dir, chrom)
-        cPickle.dump(res, open(pkl_file, "wb"), -1)
+        pickle.dump(res, open(pkl_file, "wb"), -1)
         return pkl_file
 
     return res
