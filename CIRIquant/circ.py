@@ -164,7 +164,7 @@ def generate_index(log_file, circ_info, circ_fasta):
 
     """
 
-    from logger import ProgressBar
+    from CIRIquant.logger import ProgressBar
 
     fai = utils.FASTA + '.fai'
     if not os.path.exists(fai):
@@ -684,7 +684,7 @@ def proc(log_file, thread, circ_file, hisat_bam, rnaser_file, reads, outdir, pre
     else:
         circ_exp = sample_exp
 
-    from version import __version__
+    from CIRIquant.version import __version__
     header += ['version: {}'.format(__version__), ]
     gtf_info = index_annotation(utils.GTF)
     format_output(circ_info, circ_exp, sample_stat, header, gtf_info, out_file)

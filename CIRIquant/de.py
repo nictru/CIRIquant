@@ -12,7 +12,7 @@ np.random.seed(5)
 import numexpr as ne
 ne.set_num_threads(4)
 
-from version import __version__
+from CIRIquant.version import __version__
 
 LOGGER = logging.getLogger('CIRI_DE')
 CIRC = namedtuple('CIRC', 'bsj fsj ratio rnaser_bsj rnaser_fsj')
@@ -178,7 +178,7 @@ def correction_worker(circ_ids, factor):
 
 
 def load_gtf(in_file):
-    from circ import GTFParser
+    from CIRIquant.circ import GTFParser
 
     LOGGER.info('Loading CIRIquant result: {}'.format(in_file))
 

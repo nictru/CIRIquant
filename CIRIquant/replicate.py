@@ -5,7 +5,7 @@ import sys
 import argparse
 import logging
 import subprocess
-from version import __version__
+from CIRIquant.version import __version__
 
 LOGGER = logging.getLogger('CIRI_DE')
 

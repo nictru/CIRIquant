@@ -5,7 +5,7 @@ import sys
 import argparse
 import logging
 from collections import namedtuple
-from version import __version__
+from CIRIquant.version import __version__
 
 LOGGER = logging.getLogger('prep_CIRIquant')
 CIRC = namedtuple('CIRC', 'bsj fsj ratio rnaser_bsj rnaser_fsj')
@@ -13,7 +13,7 @@ INFO = namedtuple('INFO', 'strand circ_type gene_id gene_name gene_type')
 
 
 def load_gtf(in_file):
-    from circ import GTFParser
+    from CIRIquant.circ import GTFParser
     LOGGER.info('Loading CIRIquant result: {}'.format(in_file))
 
     circ_data = {}
