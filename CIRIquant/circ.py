@@ -634,7 +634,7 @@ def proc(log_file, thread, circ_file, hisat_bam, rnaser_file, reads, outdir, pre
         output file name
 
     """
-    from utils import check_dir
+    from CIRIquant.utils import check_dir
     circ_dir = '{}/circ'.format(outdir)
     check_dir(circ_dir)
 

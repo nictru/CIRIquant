@@ -12,8 +12,8 @@ LOGGER = logging.getLogger('CIRI_DE')
 
 def main():
     global LOGGER
-    from logger import get_logger
-    from utils import check_file
+    from CIRIquant.logger import get_logger
+    from CIRIquant.utils import check_file
 
     # Init argparser
     parser = argparse.ArgumentParser(prog="CIRIquant_DE_replicate")

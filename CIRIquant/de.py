@@ -20,9 +20,9 @@ CIRC = namedtuple('CIRC', 'bsj fsj ratio rnaser_bsj rnaser_fsj')
 
 def main():
     global LOGGER
-    from circ import grouper
-    from logger import get_logger
-    from utils import check_file, get_thread_num
+    from CIRIquant.circ import grouper
+    from CIRIquant.logger import get_logger
+    from CIRIquant.utils import check_file, get_thread_num
 
     # Init argparser
     parser = argparse.ArgumentParser(prog="CIRIquant")

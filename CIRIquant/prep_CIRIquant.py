@@ -47,8 +47,8 @@ def load_gtf(in_file):
 
 def main():
     global LOGGER
-    from logger import get_logger
-    from utils import check_file
+    from CIRIquant.logger import get_logger
+    from CIRIquant.utils import check_file
 
     # Init argparser
     parser = argparse.ArgumentParser(prog="prep_CIRIquant")
