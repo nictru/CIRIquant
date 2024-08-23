@@ -10,7 +10,7 @@ import subprocess
 
 from multiprocessing import Pool
 from collections import defaultdict
-from itertools import izip_longest
+from itertools import zip_longest
 
 import utils
 
@@ -287,7 +287,7 @@ def grouper(iterable, n, fillvalue=None):
     """
 
     args = [iter(iterable)] * n
-    return izip_longest(*args, fillvalue=None)
+    return zip_longest(*args, fillvalue=None)
 
 
 def proc_denovo_bam(bam_file, thread, circ_info, threshold, lib_type):

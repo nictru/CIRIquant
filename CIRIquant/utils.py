@@ -1,8 +1,8 @@
 #! /usr/bin/env python
 # -*- encoding:utf-8 -*=
 import os
-from commands import getstatusoutput
 import subprocess
+from packaging.version import Version
 import sys
 import logging
 LOGGER = logging.getLogger('CIRIquant')
@@ -122,19 +122,15 @@ def check_config(config_file):
 
 def check_software(cmd):
     # Get software path from environment
-    from commands import getstatusoutput
-    status, ret = getstatusoutput('which {}'.format(cmd))
+    status, ret = subprocess.getstatusoutput('which {}'.format(cmd))
     if status == 0:
         return ret
     else:
         return None
 
-
 def check_samtools_version(samtools):
-    from commands import getoutput
-    from distutils.version import LooseVersion
-    version = getoutput('{} --version'.format(samtools).split('\n')[0].split(' ')[1])
-    if version and cmp(LooseVersion(version), LooseVersion('1.9')) < 0:
+    version = subprocess.getoutput('{} --version'.format(samtools)).split('\n')[0].split(' ')[1]
+    if version and Version(version) < Version('1.9'):
         raise ConfigError('samtools version too low, 1.9 required')
     return 1
 
