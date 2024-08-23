@@ -4,6 +4,7 @@ import os
 import sys
 import re
 import logging
+import functools
 import pysam
 import time
 import subprocess
@@ -763,7 +764,7 @@ def format_output(circ_info, circ_exp, sample_stat, header, gtf_index, outfile):
         for h in header:
             out.write('##' + h + '\n')
         for chrom in sorted(circ_info.keys(), key=by_chrom):
-            for circ_id in sorted(circ_info[chrom].keys(), cmp=by_circ, key=lambda x:circ_info[chrom][x]):
+            for circ_id, _ in sorted(circ_info[chrom].items(), key=functools.cmp_to_key(by_circ)):
                 if circ_id not in circ_exp or circ_exp[circ_id]['bsj'] == 0:
                     continue
                 parser = circ_info[chrom][circ_id]
@@ -819,7 +820,7 @@ def by_circ(x, y):
     """
     Sort circRNAs by the start and end position
     """
-    return x.end - y.end if x.start == y.start else x.start - y.start
+    return x[1].end - y[1].end if x[1].start == y[1].start else x[1].start - y[1].start
 
 
 class GTFParser(object):
@@ -869,7 +870,7 @@ def index_annotation(gtf):
             # if 'gene_type' in parser.attr and parser.attr['gene_type'] in ['lincRNA', 'pseudogene']:
             #     continue
 
-            start_div, end_div = parser.start / 500, parser.end / 500
+            start_div, end_div = int(parser.start / 500), int(parser.end / 500)
             for i in range(start_div, end_div + 1):
                 gtf_index[parser.chrom].setdefault(i, []).append(parser)
     return gtf_index
@@ -882,7 +883,7 @@ def circRNA_attr(gtf_index, circ):
     if circ.chrom not in gtf_index:
         LOGGER.warn('chrom of contig "{}" not in annotation gtf, please check'.format(circ.chrom))
         return {}
-    start_div, end_div = circ.start / 500, circ.end / 500
+    start_div, end_div = int(circ.start / 500), int(circ.end / 500)
 
     host_gene = {}
     start_element = defaultdict(list)
