@@ -763,7 +763,7 @@ def format_output(circ_info, circ_exp, sample_stat, header, gtf_index, outfile):
     with open(outfile, 'w') as out:
         for h in header:
             out.write('##' + h + '\n')
-        for chrom in sorted(circ_info.keys(), key=by_chrom):
+        for chrom in sorted(circ_info.keys(), key=functools.cmp_to_key(by_chrom)):
             for circ_id, _ in sorted(circ_info[chrom].items(), key=functools.cmp_to_key(by_circ)):
                 if circ_id not in circ_exp or circ_exp[circ_id]['bsj'] == 0:
                     continue
@@ -802,18 +802,21 @@ def format_output(circ_info, circ_exp, sample_stat, header, gtf_index, outfile):
     return 1
 
 
-def by_chrom(x):
+def by_chrom(x: str, y: str):
     """
     Sort by chromosomes
     """
-    chrom = x
-    if x.startswith('chr'):
-        chrom = chrom.strip('chr')
-    try:
-        chrom = int(chrom)
-    except ValueError as e:
-        pass
-    return chrom
+    def format_chrom(value: str) -> str | int:
+        if value.startswith('chr'):
+            value = value[len('chr'):]
+        return int(value) if value.isnumeric() else value
+
+    x, y = format_chrom(x), format_chrom(y)
+
+    if type(x) == type(y):
+        return x.__lt__(y)
+    else:
+        return 1 if type(x) == int else -1
 
 
 def by_circ(x, y):
